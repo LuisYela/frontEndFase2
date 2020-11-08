@@ -3,7 +3,7 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-annotation';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
-
+import {ServicioService} from "src/app/services/servicio.service"
 @Component({
   selector: 'app-graficas',
   templateUrl: './graficas.component.html',
@@ -11,10 +11,22 @@ import { Color, BaseChartDirective, Label } from 'ng2-charts';
 })
 export class GraficasComponent implements OnInit {
 
+  getData(){
+    console.log("get datos");
+    this.servio.getInfo()
+    .subscribe(
+      res=>{
+        console.log(res);
+        //alert(res);
+      },
+      err=> console.log(err)
+    )
+  }
+
   public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90, 40, 19, 86, 27, 90], label: 'Series B' },
-    { data: [50, 30, 20, 50, 30, 27, 40, 20, 50, 30, 27, 40], label: 'Series C' }
+    { data: [1, 3, 2, 4, 9, 1, 2, 7, 2, 5, 4, 1], label: 'Banco 1' },
+    { data: [2, 4, 4, 1, 8, 2, 9, 4, 1, 8, 2, 9], label: 'Banco 2' },
+    { data: [5, 3, 7, 3, 3, 7, 4, 2, 5, 3, 7, 4], label: 'Banco 3' }
   ];
   public lineChartLabels: Label[] = ['Agosto', 'Septiembre', 'Octubre', 'Nobriembre', 'Diciembre','Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
@@ -43,28 +55,19 @@ export class GraficasComponent implements OnInit {
   };
   public lineChartColors: Color[] = [
     { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      borderColor: 'yellow',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
     },
     { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+      borderColor: 'blue',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
     },
     { // red
-      backgroundColor: 'rgba(255,0,0,0.3)',
       borderColor: 'red',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
     }
   ];
   public lineChartLegend = true;
@@ -73,7 +76,7 @@ export class GraficasComponent implements OnInit {
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
 
-  constructor() { 
+  constructor(private servio: ServicioService) { 
     //this.getCategoria();
   }
 
