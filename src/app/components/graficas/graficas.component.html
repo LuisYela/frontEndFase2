@@ -1,0 +1,39 @@
+<app-navigation-bar></app-navigation-bar>
+<p>graficas works!</p>
+<br>
+<div class="col-md-5 ffset-md-2">
+  <div class="flex">
+    <div class="flex-item">
+      <div style="display: block;">
+        <canvas baseChart width="400" height="400"
+                  [datasets]="lineChartData"
+                  [labels]="lineChartLabels"
+                  [options]="lineChartOptions"
+                  [colors]="lineChartColors"
+                  [legend]="lineChartLegend"
+                  [chartType]="lineChartType"
+                  [plugins]="lineChartPlugins"
+                  (chartHover)="chartHovered($event)"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<<!--<div>
+  <div>
+    <div style="display: block" *ngIf="barChartData">
+      <canvas baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType"
+        [colors]="chartColors">
+      </canvas>
+    </div>
+  </div>
+</div>
+-->>
