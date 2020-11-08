@@ -11,7 +11,7 @@ const httpOptions = {
   })
 };
 
-const address2 = 'http://35.232.2.115:8080/';
+const address2 = 'http://Localhost:0000/'; //direccion donde estara el backend
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +20,15 @@ export class ServicioService {
 
   constructor(private http: HttpClient) { }
   getInfo(): Observable<any>{
-    return this.http.get<any>(address2+'saludo',httpOptions);
+    return this.http.get<any>(address2+'urlservicio',httpOptions);
   }
 
   postTabla(texto:tabla): Observable<any> {
-    return this.http.post<any>(address2 + 'analizar', texto , httpOptions);
+    return this.http.post<any>(address2 + 'urlservicio', texto , httpOptions);
   }
 
   postGrafico(texto:grafico): Observable<any> {
-    return this.http.post<any>(address2 + 'analizar', texto , httpOptions);
+    return this.http.post<any>(address2 + 'urlservicio', texto , httpOptions);
   }
 
 }

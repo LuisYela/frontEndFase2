@@ -16,7 +16,7 @@ export class GraficasComponent implements OnInit {
     { data: [28, 48, 40, 19, 86, 27, 90, 40, 19, 86, 27, 90], label: 'Series B' },
     { data: [50, 30, 20, 50, 30, 27, 40, 20, 50, 30, 27, 40], label: 'Series C' }
   ];
-  public lineChartLabels: Label[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto', 'Septiembre', 'Octubre', 'Nobriembre', 'Diciembre'];
+  public lineChartLabels: Label[] = ['Agosto', 'Septiembre', 'Octubre', 'Nobriembre', 'Diciembre','Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
