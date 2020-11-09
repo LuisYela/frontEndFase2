@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-
+import { ServicioService } from '../../services/servicio.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,7 +9,7 @@ import { Router } from '@angular/router'
 
 export class LoginComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private servio: ServicioService, private router:Router) { }
 
   passcode:string = "";
   user:string = "";
@@ -23,6 +23,40 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     }else{
       alert("usuario o contraseña invalidos");
+    }
+  }
+  async Ingreso() {
+    const login = await this.servio.query(`mutation{
+      login(username:"${this.user}", password:"${this.passcode}"){
+       errors{
+        field,
+        message
+      },
+        user{
+          user_id,
+          name,
+          lastname
+        }
+      }
+    }`);
+
+    const datos = await this.servio.query(`
+    {
+      getRank{
+        bank_name,
+        month_name,
+        year_name,
+        posicion,
+        posicion
+      }
+    }
+    `);
+    console.log(datos);
+
+    if (login['data']['login']['user']) {
+      this.router.navigate(['/home']);
+    } else {
+      alert(login['data']['login']['errors'][0]['message']);
     }
   }
 
