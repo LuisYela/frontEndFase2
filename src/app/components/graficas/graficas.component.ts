@@ -3,6 +3,7 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-annotation';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
+import { grafico } from 'src/app/models/grafico';
 import {ServicioService} from "src/app/services/servicio.service"
 
 @Component({
@@ -10,32 +11,101 @@ import {ServicioService} from "src/app/services/servicio.service"
   templateUrl: './graficas.component.html',
   styleUrls: ['./graficas.component.css']
 })
+    
 export class GraficasComponent implements OnInit {
 
-  public lineChartData: ChartDataSets[] = [];
-
-  getData(){
+  public listadoBancos:string[]=[];
+  public listadoBancos2:grafico[]=[];
+  public lineChartLabels: Label[] = ['Julio 2019', 'Agosto 2019', 'Septiembre 2019', 'Octubre 2019', 'Nobiemrbre 2019', 'Diciembre 2019', 'Enero 2020','Febrero 2020', 'Marzo 2020', 'Abril 2020', 'Mayo 2020', 'Junio 2019','Julio 2020', 'Agosto 2020', 'Septiembre 2020'];
+  
+  async getData(){
+    const datosimpri = await this.servio.query(`
+    {
+      getRank{
+        bank_name,
+        month_name,
+        year_name,
+        posicion,
+        pos
+      }
+    }
+    `);
+    console.log(datosimpri['data']['getRank']);//*/
+    var bancoActual:string="";
+    for (let index = 0; index < datosimpri['data']['getRank'].length; index++) {
+      bancoActual=datosimpri['data']['getRank'][index].bank_name;
+      if(!this.listadoBancos.includes(bancoActual)){
+        this.listadoBancos.push(bancoActual);
+        var newBank:grafico=new grafico();
+        var databancoActual:number[]=[];
+        var mesActual:string=datosimpri['data']['getRank'][index].month_name;
+        var anioActual:string=datosimpri['data']['getRank'][index].year_name;
+        for (let index = 0; index < datosimpri['data']['getRank'].length; index++) {
+          if(bancoActual==datosimpri['data']['getRank'][index].bank_name){
+            databancoActual.unshift(datosimpri['data']['getRank'][index].pos);
+          }
+        }
+        newBank={
+          nombre:bancoActual,
+          mes: mesActual,
+          anio:anioActual,
+          puesto:databancoActual
+        }
+        this.listadoBancos2.push(newBank);
+      }
+    }
+    for (let i = 0; i < this.listadoBancos.length; i++) {
+      this.lineChartData.push({ data: this.listadoBancos2[i].puesto , label: this.listadoBancos2[i].nombre });
+    }
+    
+    //console.log(this.listadoBancos);
+    console.log(this.listadoBancos2);
+    //console.log( this.listadoBancos2[0].puesto);
     console.log("get datos");
-    this.servio.postTabla()
+    this.changeColor();
+    /*this.servio.postTabla()
     .subscribe(
       res=>{
-        console.log(res.data.getRank);
-        var datos:number[]=[];
-        for(var _i = 0; _i < 17; _i++){
-          
+        var bancoActual:string="";
+        for (let index = 0; index < res.data.getRank.length; index++) {
+          bancoActual=res.data.getRank[index].bank_name;
+          if(!this.listadoBancos.includes(bancoActual)){
+            this.listadoBancos.push(bancoActual);
+            var newBank:grafico=new grafico();
+            var databancoActual:number[]=[];
+            var mesActual:string=res.data.getRank[index].month_name;
+            var anioActual:string=res.data.getRank[index].year_name;
+            for (let index = 0; index < res.data.getRank.length; index++) {
+              if(bancoActual==res.data.getRank[index].bank_name){
+                databancoActual.unshift(res.data.getRank[index].posicion);
+              }
+            }
+            newBank={
+              nombre:bancoActual,
+              mes: mesActual,
+              anio:anioActual,
+              puesto:databancoActual
+            }
+            this.listadoBancos2.push(newBank);
+          }
         }
+        for (let i = 0; i < this.listadoBancos.length; i++) {
+          this.lineChartData.push({ data: this.listadoBancos2[i].puesto , label: this.listadoBancos2[i].nombre });
+        }
+        
+        //console.log(this.listadoBancos);
+        console.log(this.listadoBancos2);
+        console.log( this.listadoBancos2[0].puesto);
+        var datos:number[]=[];
         //alert(res);
       },
       err=> console.log(err)
-    )
-  }
+    )*/
+  }//*/
 
-  /*public lineChartData: ChartDataSets[] = [
-    { data: [1, 3, 2, 4, 9, 1, 2, 7, 2, 5, 4, 1], label: 'Banco 1' },
-    { data: [2, 4, 4, 1, 8, 2, 9, 4, 1, 8, 2, 9], label: 'Banco 2' },
-    { data: [5, 3, 7, 3, 3, 7, 4, 2, 5, 3, 7, 4], label: 'Banco 3' }
-  ];*/
-  public lineChartLabels: Label[] = ['Agosto', 'Septiembre', 'Octubre', 'Nobriembre', 'Diciembre','Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
+  public lineChartData: ChartDataSets[] = [
+    { data: [0], label: 'Inicial' }
+  ];//*/
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
@@ -44,7 +114,7 @@ export class GraficasComponent implements OnInit {
       yAxes: [
         {
           id: 'y-axis-0',
-          position: 'left',
+          position: 'right',
         },
         {
           id: 'y-axis-1',
@@ -61,18 +131,88 @@ export class GraficasComponent implements OnInit {
     annotation: {},
   };
   public lineChartColors: Color[] = [
-    { // grey
+    {
       borderColor: 'yellow',
       pointBorderColor: 'black',
       pointHoverBorderColor: 'black'
     },
-    { // dark grey
+    {
+      borderColor: 'green',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
       borderColor: 'blue',
       pointBorderColor: 'black',
       pointHoverBorderColor: 'black'
     },
-    { // red
+    {
       borderColor: 'red',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'white',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'orange',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'purple',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'pink',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'brown',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'yellow',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'dark-red',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'green',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'blue',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'red',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'white',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'orange',
+      pointBorderColor: 'black',
+      pointHoverBorderColor: 'black'
+    },
+    {
+      borderColor: 'brown',
       pointBorderColor: 'black',
       pointHoverBorderColor: 'black'
     }
@@ -85,6 +225,7 @@ export class GraficasComponent implements OnInit {
 
   constructor(private servio: ServicioService) { 
     //this.getCategoria();
+    this.getData();
   }
 
   ngOnInit(): void {
@@ -123,7 +264,6 @@ export class GraficasComponent implements OnInit {
 
   public changeColor(): void {
     this.lineChartColors[2].borderColor = 'green';
-    this.lineChartColors[2].backgroundColor = `rgba(0, 255, 0, 0.3)`;
   }
 
   /*

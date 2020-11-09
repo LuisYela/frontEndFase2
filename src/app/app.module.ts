@@ -11,6 +11,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { GraficasComponent } from './components/graficas/graficas.component';
 import { TablaComponent } from './components/tabla/tabla.component';
 import { HomeComponent } from './components/home/home.component';
+import { TablaPuestosComponent } from './components/tabla-puestos/tabla-puestos.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HomeComponent } from './components/home/home.component';
     NavigationBarComponent,
     GraficasComponent,
     TablaComponent,
-    HomeComponent
+    HomeComponent,
+    TablaPuestosComponent
   ],
   imports: [
     BrowserModule,

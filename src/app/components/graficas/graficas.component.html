@@ -1,7 +1,7 @@
 <app-navigation-bar></app-navigation-bar>
-<p>graficas works!</p>
+<!--<p>graficas works!</p>-->
 <br>
-<div class="col-md-5 ffset-md-2">
+<div class="col-md-8 offset-md-2">
   <div class="flex">
     <div class="flex-item">
       <div style="display: block;">
@@ -16,12 +16,14 @@
                   (chartHover)="chartHovered($event)"></canvas>
       </div>
     </div>
-    <div class="flex-item">
+    <div class="flex-item" style="display: none">
       <table class="table table-responsive table-condensed">
         <tr>
+          <th>mes</th>
           <th *ngFor="let label of lineChartLabels">{{label}}</th>
         </tr>
         <tr *ngFor="let d of lineChartData; let i=index" [class]="'line-'+i">
+          <td>{{d.label}}</td>
           <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
         </tr>
       </table>

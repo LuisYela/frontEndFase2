@@ -11,19 +11,20 @@ const httpOptions = {
   })
 };
 
-const address2 = 'http://Localhost:0000/'; //direccion donde estara el backend
-
+const address2 = ' https://sistemas-operativos-2-286302.uc.r.appspot.com/'; //direccion donde estara el backend
+const address = ' https://sistemas-operativos-2-286302.uc.r.appspot.com/graphql'; //direccion donde estara el backend
 @Injectable({
   providedIn: 'root'
 })
 export class ServicioService {
 
   constructor(private http: HttpClient) { }
-  getInfo(): Observable<any>{
-    return this.http.get<any>(address2+'urlservicio',httpOptions);
+  query(data) {
+    return this.http.post(`${address}`, JSON.stringify({"query": data}),httpOptions).toPromise();
   }
 
   postTabla(): Observable<any> {
+    console.log(this.http.post<any>(address2 + 'graphql' , httpOptions));
     return this.http.post<any>(address2 + 'graphql' , httpOptions);
   }
 

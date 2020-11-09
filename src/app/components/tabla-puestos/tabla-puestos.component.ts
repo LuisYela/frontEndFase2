@@ -6,11 +6,11 @@ import { grafico } from 'src/app/models/grafico';
 import {ServicioService} from "src/app/services/servicio.service"
 
 @Component({
-  selector: 'app-tabla',
-  templateUrl: './tabla.component.html',
-  styleUrls: ['./tabla.component.css']
+  selector: 'app-tabla-puestos',
+  templateUrl: './tabla-puestos.component.html',
+  styleUrls: ['./tabla-puestos.component.css']
 })
-export class TablaComponent implements OnInit {
+export class TablaPuestosComponent implements OnInit {
   public lineChartData: ChartDataSets[] = [];
   public listadoBancos:string[]=[];
   public listadoBancos2:grafico[]=[];
@@ -40,7 +40,7 @@ export class TablaComponent implements OnInit {
         var anioActual:string=datosimpri['data']['getRank'][index].year_name;
         for (let index = 0; index < datosimpri['data']['getRank'].length; index++) {
           if(bancoActual==datosimpri['data']['getRank'][index].bank_name){
-            databancoActual.unshift(datosimpri['data']['getRank'][index].posicion);
+            databancoActual.unshift(datosimpri['data']['getRank'][index].pos);
           }
         }
         newBank={
