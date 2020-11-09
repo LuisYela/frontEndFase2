@@ -23,8 +23,8 @@ export class ServicioService {
     return this.http.get<any>(address2+'urlservicio',httpOptions);
   }
 
-  postTabla(texto:tabla): Observable<any> {
-    return this.http.post<any>(address2 + 'urlservicio', texto , httpOptions);
+  postTabla(): Observable<any> {
+    return this.http.post<any>(address2 + 'graphql' , httpOptions);
   }
 
   postGrafico(texto:grafico): Observable<any> {

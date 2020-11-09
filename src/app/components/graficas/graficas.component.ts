@@ -4,6 +4,7 @@ import * as pluginDataLabels from 'chartjs-plugin-annotation';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import {ServicioService} from "src/app/services/servicio.service"
+
 @Component({
   selector: 'app-graficas',
   templateUrl: './graficas.component.html',
@@ -11,23 +12,29 @@ import {ServicioService} from "src/app/services/servicio.service"
 })
 export class GraficasComponent implements OnInit {
 
+  public lineChartData: ChartDataSets[] = [];
+
   getData(){
     console.log("get datos");
-    this.servio.getInfo()
+    this.servio.postTabla()
     .subscribe(
       res=>{
-        console.log(res);
+        console.log(res.data.getRank);
+        var datos:number[]=[];
+        for(var _i = 0; _i < 17; _i++){
+          
+        }
         //alert(res);
       },
       err=> console.log(err)
     )
   }
 
-  public lineChartData: ChartDataSets[] = [
+  /*public lineChartData: ChartDataSets[] = [
     { data: [1, 3, 2, 4, 9, 1, 2, 7, 2, 5, 4, 1], label: 'Banco 1' },
     { data: [2, 4, 4, 1, 8, 2, 9, 4, 1, 8, 2, 9], label: 'Banco 2' },
     { data: [5, 3, 7, 3, 3, 7, 4, 2, 5, 3, 7, 4], label: 'Banco 3' }
-  ];
+  ];*/
   public lineChartLabels: Label[] = ['Agosto', 'Septiembre', 'Octubre', 'Nobriembre', 'Diciembre','Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
