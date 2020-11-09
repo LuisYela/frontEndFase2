@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
 
   Ingresar(){
-    if(this.passcode=="Yela"&&this.user=="Luis"){
+    if((this.passcode=="Yela"&&this.user=="Luis")||(this.passcode=="grupo14"&&this.user=="bases2")){
       this.router.navigate(['/home']);
     }else{
       alert("usuario o contraseña invalidos");
