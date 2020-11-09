@@ -12,6 +12,7 @@ import { GraficasComponent } from './components/graficas/graficas.component';
 import { TablaComponent } from './components/tabla/tabla.component';
 import { HomeComponent } from './components/home/home.component';
 import { TablaPuestosComponent } from './components/tabla-puestos/tabla-puestos.component';
+import { IngresarDatosComponent } from './components/ingresar-datos/ingresar-datos.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TablaPuestosComponent } from './components/tabla-puestos/tabla-puestos.
     GraficasComponent,
     TablaComponent,
     HomeComponent,
-    TablaPuestosComponent
+    TablaPuestosComponent,
+    IngresarDatosComponent
   ],
   imports: [
     BrowserModule,
