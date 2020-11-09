@@ -18,13 +18,14 @@ export class LoginComponent implements OnInit {
   }
 
 
-  Ingresar(){
+  /*Ingresar(){
     if((this.passcode=="Yela"&&this.user=="Luis")||(this.passcode=="grupo14"&&this.user=="bases2")){
       this.router.navigate(['/home']);
     }else{
       alert("usuario o contraseña invalidos");
     }
-  }
+  }*/
+
   async Ingreso() {
     const login = await this.servio.query(`mutation{
       login(username:"${this.user}", password:"${this.passcode}"){
@@ -39,19 +40,6 @@ export class LoginComponent implements OnInit {
         }
       }
     }`);
-
-    const datos = await this.servio.query(`
-    {
-      getRank{
-        bank_name,
-        month_name,
-        year_name,
-        posicion,
-        posicion
-      }
-    }
-    `);
-    console.log(datos);
 
     if (login['data']['login']['user']) {
       this.router.navigate(['/home']);
