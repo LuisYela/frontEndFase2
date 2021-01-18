@@ -11,7 +11,7 @@ const httpOptions = {
   })
 };
 
-const address2 = ' https://sistemas-operativos-2-286302.uc.r.appspot.com/'; //direccion donde estara el backend
+const address2 = ' http://localhost:8080/'; //direccion donde estara el backend
 const address = ' https://sistemas-operativos-2-286302.uc.r.appspot.com/graphql'; //direccion donde estara el backend
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,10 @@ export class ServicioService {
 
   postGrafico(texto:grafico): Observable<any> {
     return this.http.post<any>(address2 + 'urlservicio', texto , httpOptions);
+  }
+
+  getSaludo(): Observable<any>{
+    return this.http.get<any>(address2+'saludo',httpOptions);
   }
 
 }
